@@ -19,10 +19,10 @@ const App = () => {
       <Progress/>
       <Switch>
         <Route path="/" exact component={Start}/>
-        <Route path="/quiz" exact component={Quiz}/>
-        <Route path="/result" exact component={Result}/>
-        <Route path="/comment" exact component={Comment}/>
-        <Route path="/rank" exact component={Rank}/>
+        <Route path="/quiz" component={Quiz}/>
+        <Route path="/result" component={Result}/>
+        <Route path="/comment" component={Comment}/>
+        <Route path="/rank" component={Rank}/>
       </Switch>
     </Wrap>
   );
