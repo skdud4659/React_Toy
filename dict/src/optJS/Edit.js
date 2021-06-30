@@ -2,36 +2,38 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from 'styled-components';
 import image from '../img/Paw.PNG'
-import { addDictFB } from '../redux/modules/dict';
+import { removeDictFB, updateDictFB } from '../redux/modules/dict';
 
-const Write = (props) => {
+const Edit = (props) => {
   const dispatch = useDispatch();
+  const list =useSelector((state) => state.dict.list);
 
   const input_word = React.useRef(null);
   const input_description = React.useRef(null);
   const input_example = React.useRef(null);
 
+  let data_index = parseInt(props.match.params.index);
 
   return (
     <Wrap>
       <BoardContainer>
         <Top>
             <LeftPaw src={image}/>
-            <h2>단어 추가하기</h2>
+            <h2>단어 수정하기</h2>
             <RightPaw src={image}/>
         </Top>
         <BoardLists>
             <div>
               <small>Word</small>
-              <textarea placeholder='단어를 입력해주세요' ref={input_word}></textarea>
+              <textarea ref={input_word}>{list[data_index].word}</textarea>
             </div>
             <div>
               <small>Description</small>
-              <textarea placeholder='어떤 뜻인가요?' ref={input_description}></textarea>
+              <textarea ref={input_description}>{list[data_index].description}</textarea>
             </div>
             <div>
               <small>Example</small>
-              <textarea placeholder='어떻게 쓰이나요?' ref={input_example}></textarea>
+              <textarea ref={input_example}>{list[data_index].example}</textarea>
             </div>
         </BoardLists>
       </BoardContainer>
@@ -42,11 +44,11 @@ const Write = (props) => {
             description: input_description.current.value,
             example: input_example.current.value
           }
-          dispatch(addDictFB(input_text));
+          dispatch(updateDictFB(data_index, input_text));
           window.setTimeout(()=> {
-            props.history.push("/")
+            props.history.goBack()
           },500);
-        }}>추가하기</AddBtn>
+        }}>완료하기</AddBtn>
     </Wrap>
   );
 }
@@ -126,4 +128,4 @@ const AddBtn = style.button`
   display: block;
 `;
 
-export default Write;
+export default Edit;

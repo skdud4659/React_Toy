@@ -10,13 +10,13 @@ import { removeDictFB,loadDictFB } from '../redux/modules/dict';
 
 const Board = (props) => {
   const dispatch = useDispatch()
-  const dict_list =useSelector(state => state.dict.list);
+  const _list =useSelector((state) => state.dict.list);
 
-  console.log(dict_list)
+  console.log(_list)
 
   React.useEffect(() => {
     dispatch(loadDictFB());
-  },[]);
+  }, []);
 
   return (
     <Wrap>
@@ -27,18 +27,27 @@ const Board = (props) => {
             <RightPaw src={image}/>
         </Top>
         <ScrollBox>
-          {dict_list.map((l,idx) => {
+          {_list.map((l,idx) => {
             return (
-              <BoardLists key={idx}>
-                <List>
+              <BoardLists>
+                <List key={idx}>
                   <div>
                     <Delbox>
                       <small>Word</small>
-                      <DeleteBtn onClick={() => {
-                      dispatch(removeDictFB(idx));
-                      }}>삭제
-                      </DeleteBtn>
-                      </Delbox>
+                      <div>
+                        <EditBtn
+                          key={idx}
+                          onClick={() => {
+                          props.history.push('/edit/'+idx)
+                        }}>
+                          수정
+                        </EditBtn>
+                        <DeleteBtn onClick={() => {
+                        dispatch(removeDictFB(idx));
+                        }}>삭제
+                        </DeleteBtn>
+                      </div>
+                    </Delbox>
                     <p>{l.word}</p>
                   </div>
                   <div>
@@ -47,7 +56,7 @@ const Board = (props) => {
                   </div>
                   <div>
                     <small>Example</small>
-                    <p>{l.example}</p>
+                    <Ex>{l.example}</Ex>
                   </div>
                 </List>
               </BoardLists>
@@ -127,6 +136,10 @@ const List = style.div`
   }
 `;
 
+const Ex = style.p`
+  color: #0095c9;
+`;
+
 const Delbox = style.div`
   width: 100%;
   height: 18px;
@@ -141,6 +154,16 @@ const DeleteBtn = style.button`
     height: 25px;
     border-radius: 20px;
     background-color: #debd96;
+`;
+
+const EditBtn = style.button`
+    border: none;
+    margin-right: 10px;
+    width: 50px;
+    height: 25px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid #debd96;
 `;
 
 const Btns = style.div`
