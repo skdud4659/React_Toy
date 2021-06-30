@@ -2,9 +2,9 @@ import React from 'react'
 import './App.css';
 import style from 'styled-components'
 
-import Board from './optJS/Board';
-import Write from './optJS/Write';
-import Edit from './optJS/Edit';
+import Board from './Board';
+import Write from './Write';
+import Edit from './Edit';
 
 import {Route, Switch} from 'react-router-dom';
 

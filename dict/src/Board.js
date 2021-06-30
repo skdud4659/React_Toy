@@ -1,11 +1,11 @@
 import React from 'react'
 import style from 'styled-components';
-import image from '../img/Paw.PNG'
+import image from './Paw.PNG'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 
 import {useDispatch, useSelector} from 'react-redux';
-import { removeDictFB,loadDictFB } from '../redux/modules/dict';
+import { removeDictFB,loadDictFB } from './redux/modules/dict';
 
 
 const Board = (props) => {

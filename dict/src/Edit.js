@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from 'styled-components';
-import image from '../img/Paw.PNG'
-import { removeDictFB, updateDictFB } from '../redux/modules/dict';
+import image from './Paw.PNG'
+import { removeDictFB, updateDictFB } from './redux/modules/dict';
 
 const Edit = (props) => {
   const dispatch = useDispatch();
@@ -36,8 +36,7 @@ const Edit = (props) => {
               <textarea ref={input_example}>{list[data_index].example}</textarea>
             </div>
         </BoardLists>
-      </BoardContainer>
-      <AddBtn 
+        <AddBtn 
         onClick = {() => {
           let input_text = {
             word: input_word.current.value,
@@ -49,6 +48,7 @@ const Edit = (props) => {
             props.history.goBack()
           },500);
         }}>완료하기</AddBtn>
+      </BoardContainer>
     </Wrap>
   );
 }
@@ -60,7 +60,7 @@ const Wrap = style.div`
 
 const BoardContainer = style.div`
   width: 100%;
-  height: 93%;
+  height: 100vh;
 `;
 
 const Top = style.div`
@@ -87,14 +87,15 @@ const RightPaw = style.img`
 
 const BoardLists = style.div`
   width: 90%
-  height: 88%;
+  height: 90%;
   margin: 3%;
   display: flex;
   flex-direction: column;
-  align-contents: space-around;
+  align-content: space-between;
+  overflow:scroll;
   & div {
     border: 1px solid #9e8260;
-    height: 150px;
+    height: 60%;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -112,7 +113,7 @@ const BoardLists = style.div`
   }
 
   & textarea {
-    height: 90px;
+    height: 80px;
     resize: none;
     padding: 10px;
     border: 1px solid #9e8260;
