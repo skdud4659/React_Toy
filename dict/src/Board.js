@@ -26,7 +26,7 @@ const Board = (props) => {
             <h2>집사 용어 사전</h2>
             <RightPaw src={image}/>
         </Top>
-        <ScrollBox>
+        <ScrollBox id='scroll'>
           {_list.map((l,idx) => {
             return (
               <BoardLists>
@@ -55,7 +55,7 @@ const Board = (props) => {
                     <p>{l.description}</p>
                   </div>
                   <div>
-                    <small>Example</small>
+                    <small>Example</small>    
                     <Ex>{l.example}</Ex>
                   </div>
                 </List>
@@ -65,12 +65,16 @@ const Board = (props) => {
         </ScrollBox>
       </BoardContainer>
       <Btns>
-          <ExpandLessIcon style={{fontSize: 45, color: "#9e8260"}}/>
+          <ExpandLessIcon
+          onClick = {() => {
+            document.getElementById('scroll').scrollTo(0,0);
+          }}
+          style={{fontSize: 45, color: "#9e8260"}}/>
           <AddBoxIcon
           onClick = {() => {
             props.history.push('/write')
           }}style={{fontSize: 45, color: "#9e8260"}}/>
-      </Btns>
+        </Btns>
     </Wrap>
   );
 }
@@ -170,7 +174,6 @@ const Btns = style.div`
   width: 100%;
   display:flex;
   justify-content: space-between;
-  position: fixed;
 `;
 
 
