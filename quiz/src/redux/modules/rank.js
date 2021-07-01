@@ -16,6 +16,7 @@ const initialState = {
   user_msg: '',
   use_score: '',
   ranking: [],
+  current: false,
   is_loaded: false,
 };
 
@@ -49,6 +50,7 @@ export const addRankFB = (rank_info) => {
     };
     rank_db.add(rank_data).then((doc) => {
       rank_data = {...rank_data, id: doc.id, current:true};
+      console.log(rank_data)
       dispatch(addRank(rank_data));
     });
   }
@@ -86,6 +88,7 @@ export default function reducer(state = initialState, action = {}) {
 
     case 'rank/GET_RANK': {
       let ranking_data = [...state.ranking];
+      
       const rank_ids = state.ranking.map((r,idx) => {
         return r.id;
       });
@@ -94,6 +97,7 @@ export default function reducer(state = initialState, action = {}) {
           ranking_data = [...ranking_data, r];
         }
       })
+      console.log(ranking_data)
       return {...state, ranking: ranking_data}
     }
 

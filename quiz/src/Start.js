@@ -62,7 +62,7 @@ const NameBox = style.input`
 
 const StartBtn = style.button`
   width: 100px;
-  height: 30px;
+  height: 10%;
   background-color: #fbe9c2;
   margin: 15% auto;
   border-radius: 20px;

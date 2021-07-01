@@ -19,7 +19,8 @@ const Rank = (props) => {
     if(!user_rank.current){
       return;
     }
-  })
+    window.scrollTo({top: user_rank.current.offsetTop, left: 0, behavior: "smooth"});
+  },[]);
 
   const ranking = _ranking.sort((a,b) => {
     return b.score - a.score;
@@ -33,8 +34,6 @@ const Rank = (props) => {
   return (
     <Wrap>
       <YourPosition><span>{ranking.length}명</span>의 사람들 중 당신의 순위는?</YourPosition>
-      <hr/>
-
       <RankingList>
         {ranking.map((r,idx) => {
           if(r.current) {
@@ -80,7 +79,6 @@ const Wrap = style.div`
 const YourPosition = style.p`
   width: 100%;
   height: 5%;
-  border-bottom: 1px solid #8b550e;
   & span {
     background-color: #fbe9c2;
     padding: 5px;

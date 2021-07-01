@@ -10,10 +10,9 @@ import Rank from './Rank'
 import Progress from './Progress'
 
 import {Route, Switch} from "react-router-dom";
-import { withRouter } from "react-router";
 
 
-const App = () => {
+const App = (props) => {
   return (
     <Wrap className="App">
       <Progress/>
@@ -33,4 +32,4 @@ const Wrap = style.div`
   height: 100vh;
 `;
 
-export default (withRouter(App));
+export default App;

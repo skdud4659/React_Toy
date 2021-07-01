@@ -1,9 +1,9 @@
 import React from 'react';
 import style from 'styled-components';
 
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const Progress = () => {
+const Progress = (props) => {
 
   const quiz_list = useSelector((state) => state.quiz.quiz);
   const answers = useSelector((state) => state.quiz.answers);
