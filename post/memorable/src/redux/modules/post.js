@@ -26,7 +26,7 @@ const loading = createAction(LOADING, (is_loading) => ({is_loading}));
 //initialState
 const initialState = {
   list:[],
-  paging: {start:null, next:null, size:3},
+  paging: {start:null, next:null, size:5},
   is_loading:false,
 }
 
@@ -37,6 +37,7 @@ const initialPost = {
   //   user_profile: '../../img/IMG_2246 2.jpg'
   // },
   image_url: '../../img/IMG_2246 2.jpg',
+  like_cnt:0,
   contents: '가을',
   comment_cnt: 0,
   insert_d: moment().format("MMM DD, YYYY"),
@@ -105,58 +106,64 @@ const addPostFB = (contents = "") => {
   };
 };
 
+//무한스크롤 시 size=5추가
+const getPostFB = (start = null, size=5) => {
+  return function (dispatch, getState, { history }) {
 
-const getPostFB = (start=null, size=3) => {
-  return function (dispatch, getState) {
     let _paging = getState().post.paging;
-    if(_paging.start && !_paging.next) {
+    
+    if(_paging.start && !_paging.next){
       return;
     }
-    dispatch(loading(true));
-    const postDB = firestore.collection('post');
 
-    //게시글을 시간 역순으로 정리 (desc - 내림차순)
-    let query = postDB.orderBy("insert_dt", "desc");
-    if(start) {
+    dispatch(loading(true));
+    const postDB = firestore.collection("post");
+
+    let query = postDB.orderBy("insert_dt", "desc")
+
+    //시작점 정보
+    if(start){
       query = query.startAt(start);
     }
 
-    query.limit(size+1).get().then((docs) => {
-      let post_list = [];
+    query
+      .limit(size + 1)
+      .get()
+      .then((docs) => {
+        let post_list = [];
 
-      let paging = {
-        start: docs.docs[0],
-        size:size,
-        next:docs.docs.length === size+1? docs.docs[docs.docs.length-1] : null,
-      };
+        let paging = {
+          start: docs.docs[0],
+          next: docs.docs.length === size+1? docs.docs[docs.docs.length -1] : null,
+          size: size,
+        }
 
-      docs.forEach((doc) => {
-        let _post = doc.data();
-        // ['commenct_cnt', 'contents', ..]
-        let post = Object.keys(_post).reduce(
-          (acc, cur) => {
-            // 만약 추가하고자 하는 내용에 user_이 포함되지 않는다면
-            if(cur.indexOf("user_") !== -1) {
-              return {
-                ...acc,
-                //user_info를 추가
-                user_info: {...acc.user_info, [cur] : _post[cur]},
-              };
-            }
-            //포함한다면
-            return {...acc, [cur] : _post[cur]};
-          },
-          {id:doc.id, user_info: {}}
-        );
-        post_list.push(post);
+        docs.forEach((doc) => {
+          let _post = doc.data();
+
+          // ['commenct_cnt', 'contents', ..]
+          let post = Object.keys(_post).reduce(
+            (acc, cur) => {
+              if (cur.indexOf("user_") !== -1) {
+                return {
+                  ...acc,
+                  user_info: { ...acc.user_info, [cur]: _post[cur] },
+                };
+              }
+              return { ...acc, [cur]: _post[cur] };
+            },
+            { id: doc.id, user_info: {} }
+          );
+
+          post_list.push(post);
+        });
+
+        post_list.pop();
+
+        dispatch(setPost(post_list, paging)); //paging
       });
-      console.log(post_list);
-
-      post_list.pop();
-      dispatch(setPost(post_list, paging));
-    })
-  }
-}
+  };
+};
 
 const getOnePostFB = (id) => {
   return function(dispatch, getState) {
@@ -270,18 +277,18 @@ export default handleActions(
 
     [SET_POST]: (state, action) => produce(state, (draft) => {
       draft.list.push(...action.payload.post_list);
-      draft.list = draft.list.reduce((acc,cur) => {
-        if(acc.findIndex((a) => a.id === cur.id) === -1){
-          return [...acc,cur];
-        } else {
-          acc[acc.findIndex((a) => a.id === cur.id)] = cur;
-          return acc;
-        }
-      },[])
+      // draft.list = draft.list.reduce((acc,cur) => {
+      //   if(acc.findIndex((a) => a.id === cur.id) === -1){
+      //     return [...acc,cur];
+      //   } else {
+      //     acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+      //     return acc;
+      //   }
+      // },[])
 
-      if(action.payload.paging) {
+      // if(action.payload.paging) {
         draft.paging = action.payload.paging;
-      }
+      // }
       draft.is_loading = false;
     }),
 

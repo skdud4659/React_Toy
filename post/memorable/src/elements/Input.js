@@ -16,7 +16,7 @@ const Input = (props) => {
 
   if(is_file) {
     return (
-      <FileBox {...styles} type="file" onChange={_onChange}/>
+      <FileBox {...styles} type="file" onChange={_onChange} value={value}/>
     )
   }
 

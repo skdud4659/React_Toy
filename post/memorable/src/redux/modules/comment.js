@@ -9,24 +9,24 @@ import firebase from 'firebase/app';
 import { firestore, realtime } from "../../shared/firebase";
 import {history} from '../configStore';
 
-import {actionCreators as postActions} from './post'
+import post, {actionCreators as postActions} from './post'
 
 //actions
 const ADD_COMMENT = 'ADD_COMMENT';
-const GET_COMMENT = 'GET_COMMENT';
-const DELETE_COMMENT = 'DELETE_COMMENT';
+const SET_COMMENT = 'SET_COMMENT';
+// const DELETE_COMMENT = 'DELETE_COMMENT';
 const LOADING = "LOADING";
 
 //action creators
 const addComment = createAction(ADD_COMMENT, (post_id, comment) => ({
   post_id, comment
 }));
-const getComment = createAction(GET_COMMENT, (post_id, comment_list) => ({
+const setComment = createAction(SET_COMMENT, (post_id, comment_list) => ({
   post_id, comment_list
 }));
-const deleteComment = createAction(DELETE_COMMENT, (post_id, comment) => ({
-  post_id, comment
-}));
+// const deleteComment = createAction(DELETE_COMMENT, (post_id, comment) => ({
+//   post_id, comment
+// }));
 const loading = createAction(LOADING, (is_loading) => ({
   is_loading
 }));
@@ -38,7 +38,7 @@ const initialState = {
 }
 
 //firebase
-const addCommentFB = (post_id, contents) => {
+const addCommentFB = (post_id, comments) => {
   return function (dispatch, getState) {
     const commentDB = firestore.collection("comment")
     const user_info = getState().user.user;
@@ -48,7 +48,7 @@ const addCommentFB = (post_id, contents) => {
       user_id:user_info.uid,
       user_name:user_info.user_name,
       user_profile: user_info.user_profile,
-      contents:contents,
+      contents:comments,
       insert_d: moment().format("MMM DD, YYYY"),
       insert_dt : moment().format("YYYY-MM-DD hh:mm:ss")
     };
@@ -86,7 +86,7 @@ const getCommentFB = (post_id = null) => {
     if(!post_id) {
       return;
     }
-    const commentDB = firestore.collection('comment');
+    const commentDB = firestore.collection("comment");
 
     commentDB
       .where("post_id", "==", post_id)
@@ -99,8 +99,8 @@ const getCommentFB = (post_id = null) => {
           list.push({...doc.data(), id:doc.id});
         });
 
-        console.log(list)
-        dispatch(getComment(post_id, list));
+        console.log(post_id, list)
+        dispatch(setComment(post_id, list));
       })
       .catch((err) => {
         window.alert('댓글을 가져오는데 오류가 발생했어요!')
@@ -113,16 +113,25 @@ const getCommentFB = (post_id = null) => {
 export default handleActions (
   {
     [ADD_COMMENT]: (state, action) => produce(state, (draft) => {
-      draft.list[action.payload.post_id].unshift(action.payload.comments)
+      const postID = action.payload.post_id;
+      const comment = action.payload.comment;
+      if(draft.list[postID]){
+        draft.list[postID].unshift(comment)
+      } else {
+        draft.list[postID] = [];
+        draft.list[postID].push(comment);
+      } 
     }),
-    [GET_COMMENT]: (state, action) => produce(state, (draft) => {
-      draft.list[action.payload.post_id] = action.payload.comment_list;
+    [SET_COMMENT]: (state, action) => produce(state, (draft) => {
+      const postID = action.payload.post_id;
+      const comment = action.payload.comment_list;
+      draft.list = comment
     }),
-    [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
+    // [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
 
-    }),
+    // }),
     [LOADING]: (state, action) => produce(state, (draft) => {
-
+      draft.is_loading = action.payload.is_loading
     }),
   },
   initialState
@@ -130,8 +139,8 @@ export default handleActions (
 
 const actionCreators = {
   addComment,
-  getComment,
-  deleteComment,
+  setComment,
+  // deleteComment,
 
   addCommentFB,
   getCommentFB

@@ -16,6 +16,7 @@ const Main = (props) => {
   const paging = useSelector((state)=> state.post.paging);
 
   React.useEffect(() => {
+    console.log(is_loading, paging)
     if(post_list.length < 2) {
       dispatch(postActions.getPostFB());
     }
@@ -23,14 +24,15 @@ const Main = (props) => {
 
   return (
     <React.Fragment>
-      <Grid>
       <InfinityScroll
-        callNext={() => {
-          dispatch(postActions.getPostFB(paging.next))
-        }}
-        is_next={paging.next? true:false}
-        loading={is_loading}>
-      <Grid height="100%" overflow>
+            callNext={() => {
+              console.log("next!")
+              // dispatch(postActions.getPostFB(paging.next));
+            }}
+            is_next={paging.next ? true : false}
+            loading={is_loading}
+          >
+          <Grid height="100%" overflow>
         {post_list.map((p, idx) => {
           if (p.user_info.user_id === user_info?.uid) {
             return (
@@ -54,9 +56,9 @@ const Main = (props) => {
             )
           }
         })}
-      </Grid>
-      </InfinityScroll>
-      </Grid>
+        <button onClick={() => dispatch(postActions.getPostFB(paging.next))}>추가</button>
+        </Grid>
+        </InfinityScroll>
     </React.Fragment>
   );
 }

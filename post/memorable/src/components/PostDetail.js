@@ -26,7 +26,7 @@ const PostDetail = (props) => {
           <Grid is_flex bg={"#FFE3C1"} top="true" border_top="#D58A32"padding="4px 6px;">
             <Grid is_flex>
               <Text bold width="40%">{props.user_info.user_name}</Text>
-              <Text size="12px;">({props.insert_dt})</Text>
+              <Text size="12px;">({props.insert_d})</Text>
             </Grid>
             <Grid is_flex width="auto">
               {props.is_me && (<Button width="40px;"
