@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {Text} from '../elements';
 
 const Input = (props) => {
-  const {label, placeholder, border, multiline, _onChange, is_file, type, padding, width, height, margin} = props
+  const {label, placeholder, border,value, multiline, _onChange, is_file, type, padding, width, height, margin} = props
 
   const styles = {
     padding:padding,
@@ -22,7 +22,7 @@ const Input = (props) => {
 
   if(multiline) {
     return (
-      <TextArea rows="10" {...styles} onChange={_onChange}/>
+      <TextArea rows="10" {...styles} onChange={_onChange} value={value}/>
     )
   }
 
@@ -43,6 +43,7 @@ Input.defaultProps = {
   margin: false,
   is_file: false,
   multiline: false,
+  value:'',
   _onChange: () => {}
 }
 

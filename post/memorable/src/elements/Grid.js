@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const Grid = (props) => {
-  const {children, padding, rows, is_flex, is_over, overflow, top, width, height, margin, bg, position, border, shadow, border_top} = props
+  const {children, padding, rows, _onClick, is_flex, is_over, overflow, top, width, height, margin, bg, position, border, shadow, border_top} = props
 
   const styles = {
     is_flex: is_flex,
@@ -42,7 +42,7 @@ const Grid = (props) => {
 
   return (
     <React.Fragment>
-      <GridBox {...styles}>{children}</GridBox>
+      <GridBox {...styles} onClick={_onClick}>{children}</GridBox>
     </React.Fragment>
   );
 }
@@ -59,9 +59,10 @@ Grid.defaultProps = {
   shadow: false,
   top:false,
   rows:false,
-  overflow:null,
+  overflow:false,
   is_over:false,
   border_top:"",
+  _onClick: () => {}
 }
 
 const GridBox = styled.div`
