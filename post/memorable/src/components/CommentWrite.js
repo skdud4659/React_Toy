@@ -42,6 +42,7 @@ const CommentWrite = (props) => {
                   padding="5px"
                   placeholder="댓글을 입력해주세요."
                   _onChange={input_comment}
+                  onSubmit={addCommentBtn}
                   value={comment}/>
               </Grid>
           </Grid>

@@ -9,7 +9,7 @@ import firebase from 'firebase/app';
 import { firestore, realtime } from "../../shared/firebase";
 import {history} from '../configStore';
 
-import post, {actionCreators as postActions} from './post'
+import {actionCreators as postActions} from './post'
 
 //actions
 const ADD_COMMENT = 'ADD_COMMENT';
@@ -35,7 +35,7 @@ const loading = createAction(LOADING, (is_loading) => ({
 const initialState = {
   list:{},
   is_loading:false,
-}
+};
 
 //firebase
 const addCommentFB = (post_id, comments) => {
@@ -82,7 +82,7 @@ const addCommentFB = (post_id, comments) => {
 };
 
 const getCommentFB = (post_id = null) => {
-  return function (getState, dispatch) {
+  return function (dispatch, getState) {
     if(!post_id) {
       return;
     }
@@ -123,9 +123,7 @@ export default handleActions (
       } 
     }),
     [SET_COMMENT]: (state, action) => produce(state, (draft) => {
-      const postID = action.payload.post_id;
-      const comment = action.payload.comment_list;
-      draft.list = comment
+      draft.list[action.payload.post_id] = action.payload.comment_list;
     }),
     // [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
 

@@ -5,6 +5,7 @@ import {Grid, Text, Button, Input, Image} from '../elements'
 
 import {useDispatch, useSelector} from 'react-redux';
 import {actionCreators as userActions} from '../redux/modules/user'
+import {emailCheck} from '../shared/MailChk';
 
 const LogIn = (props) => {
   const dispatch = useDispatch()
@@ -28,6 +29,11 @@ const LogIn = (props) => {
       window.alert('모든 항목을 입력해주세요!')
       return;
     }
+
+    if(!emailCheck(id)){
+      window.alert('이메일 형식을 확인해주세요!')
+    }
+
     window.alert('로그인 성공!')
     dispatch(userActions.logInFB(id, pw))
   }
@@ -42,6 +48,7 @@ const LogIn = (props) => {
         <Grid height="55%" overflow margin="8% 0px">
           <Grid margin="10% auto 0px auto" width="85%">
             <Input
+              noValue
               padding="3% 0px"
               label="아이디"
               placeholder="이메일 형식의 아이디를 입력해주세요"
@@ -50,6 +57,7 @@ const LogIn = (props) => {
           </Grid>
           <Grid margin="10% auto 0px auto" width="85%">
             <Input
+              noValue
               type="password"
               padding="3% 0px"
               label="비밀번호"

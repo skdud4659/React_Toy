@@ -57,6 +57,7 @@ const SignUp = (props) => {
         <Grid height="55%" overflow>
           <Grid margin="5% auto 0px auto" width="85%">
             <Input
+              noValue
               padding="3% 0px"
               label="아이디"
               placeholder="이메일 형식의 아이디를 입력해주세요"
@@ -65,6 +66,7 @@ const SignUp = (props) => {
           </Grid>
           <Grid margin="5% auto 0px auto" width="85%">
             <Input
+              noValue
               padding="3% 0px"
               label="닉네임"
               placeholder="닉네임을 입력해 주세요."
@@ -73,6 +75,7 @@ const SignUp = (props) => {
           </Grid>
           <Grid margin="5% auto 0px auto" width="85%">
             <Input
+              noValue
               type="password"
               padding="3% 0px"
               label="비밀번호"
@@ -82,6 +85,7 @@ const SignUp = (props) => {
           </Grid>
           <Grid margin="5% auto 0px auto" width="85%">
             <Input
+              noValue
               type="password"
               padding="3% 0px"
               label="비밀번호 확인"

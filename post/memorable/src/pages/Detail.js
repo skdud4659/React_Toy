@@ -5,6 +5,8 @@ import Permit from '../shared/Permit';
 import PostDetail from '../components/PostDetail'
 import {actionCreators as postActions} from '../redux/modules/post'
 
+import {Grid} from '../elements'
+
 
 import styled from 'styled-components';
 
@@ -38,7 +40,9 @@ const Detail = (props) => {
         <Permit>
           <CommentWrite post_id={id} />
         </Permit>
-        <Comments post_id={id}/>
+        <Grid overflow height="35%">
+          <Comments post_id={id}/>
+        </Grid>
     </React.Fragment>
   );
 }

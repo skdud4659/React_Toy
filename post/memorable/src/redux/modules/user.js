@@ -53,7 +53,7 @@ const signUpFB = (id, pwd, user_name) => {
             })
           );
           //회원가입 성공 후 메인 페이지로 이동
-          history.push('/')
+          history.replace('/')
         })
         .catch((error) => {
           console.log(error)
@@ -122,7 +122,7 @@ const logoutFB = () => {
   return function (dispatch, getState) {
     auth.signOut().then(() => {
       dispatch(deleteUser());
-      history.replace('/')
+      window.location.href='/'
     })
   }
 }

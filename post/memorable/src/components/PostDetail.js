@@ -54,13 +54,18 @@ const PostDetail = (props) => {
 }
 
 PostDetail.defaultProps = {
+  d:null,
   user_info: {
-    user_name: 'fall_of',
-    user_id: "",
+    user_name: 'fall_of'
   },
-  insert_dt: "2021.07.06 14:00",
+  insert_d: "Jul 08, 2021",
+  insert_dt: "2021-07-08 08:28:00 am",
   img_url: postEx,
   contents: "ㄱㅇㅇㄱㅇㅇㄱㅇㅇㄱㅇㅇㄱㅇㅇ",
+  like_cnt : 0,
+  comment_cnt : 0,
+  is_like: false,
+  is_me: false,
 }
 
 export default PostDetail;

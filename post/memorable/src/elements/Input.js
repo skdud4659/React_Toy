@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {Text} from '../elements';
 
 const Input = (props) => {
-  const {label, placeholder, border,value, multiline, _onChange, is_file, type, padding, width, height, margin} = props
+  const {label, placeholder, border,value, noValue,  multiline, _onChange, is_file, type, padding, width, height, margin, onSubmit} = props
 
   const styles = {
     padding:padding,
@@ -14,22 +14,35 @@ const Input = (props) => {
     border:border,
   }
 
+  if(noValue) {
+    return (
+      <React.Fragment>
+        <Text bold color="#60C1DF">{label}</Text>
+        <NovBox {...styles} placeholder={placeholder} type={type} onChange={_onChange}/>
+      </React.Fragment>
+    )
+  }
+
   if(is_file) {
     return (
       <FileBox {...styles} type="file" onChange={_onChange} value={value}/>
     )
-  }
+  };
 
   if(multiline) {
     return (
       <TextArea rows="10" {...styles} onChange={_onChange} value={value}/>
     )
-  }
+  };
 
   return (
     <React.Fragment>
       <Text bold color="#60C1DF">{label}</Text>
-      <InputBox {...styles} placeholder={placeholder} type={type} onChange={_onChange}/>
+      <InputBox {...styles} placeholder={placeholder} type={type} onChange={_onChange} value={value} onKeyPress={(e) => {
+              if(e.key === "Enter"){
+                onSubmit(e);
+              }
+            }}/>
     </React.Fragment>
   );
 }
@@ -43,11 +56,24 @@ Input.defaultProps = {
   margin: false,
   is_file: false,
   multiline: false,
+  noValue:false,
   value:'',
-  _onChange: () => {}
+  _onChange: () => {},
+  onsubmit: () => {}
 }
 
 const InputBox = styled.input`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  padding: ${(props) => props.padding};
+  margin: ${(props) => props.margin};
+  border: 2px solid #C4C4C4;
+  &:focus {
+    outline: 1px solid #60C1DF;
+  }
+`; 
+
+const NovBox = styled.input`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   padding: ${(props) => props.padding};

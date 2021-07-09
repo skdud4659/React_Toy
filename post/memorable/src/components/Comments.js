@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Text, Image } from '../elements';
-import postEx from '../img/main.jpg'
+import postEx from '../img/profile.jpeg'
 import {history} from '../redux/configStore';
 import {useSelector, useDispatch} from 'react-redux';
 import {actionCreators as commentActions} from '../redux/modules/comment';
@@ -13,7 +13,7 @@ const Comments = (props) => {
   
 
   const {post_id} = props;
-  console.log(post_id, comment_list) 
+  console.log(comment_list) 
 
   React.useEffect(() => {
     // 코멘트 정보가 없으면 불러오기(위에 comment_list는 공란)
@@ -32,9 +32,7 @@ const Comments = (props) => {
     <React.Fragment>
       <Grid>
         {comment_list[post_id].map(c => {
-          return (
-            <CommentItem key={c.id} {...c}/>
-          )
+          return <CommentItem key={c.id} {...c}/>;
         })}
       </Grid>
     </React.Fragment>
@@ -63,8 +61,8 @@ const CommentItem = (props) => {
         <Text size="12px">({insert_d})</Text>
         </Grid>
       </Grid>
-        <Grid height="8%" is_flex border="1px solid #D58A32">
-          <Grid>
+        <Grid height="8%" is_flex border="1px solid #D58A32;">
+          <Grid width="auto" margin="2%">
             <Image shape="profile" src={postEx}/>
           </Grid>
           <Grid>

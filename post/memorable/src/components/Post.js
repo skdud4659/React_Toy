@@ -2,16 +2,22 @@ import React from 'react';
 import { Grid, Text, Image, Button } from '../elements';
 import postEx from '../img/main.jpg';
 
-import {faCarrot} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from 'styled-components';
+import Like from './Like';
 
-import {history} from '../redux/configStore';
-
-import {useDispatch} from 'react-redux';
-import {actionCreators as postActions} from '../redux/modules/post';
+import { useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 const Post = (props) => {
+  const dispatch = useDispatch();
+
+  const likeBtn = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(postActions.toggleLikeFB(props.id));
+  }
+
+
 
   return (
     <React.Fragment>
@@ -28,9 +34,10 @@ const Post = (props) => {
             <Text margin="0px 0px 0% 10%">{props.contents}</Text>
           </Grid>
           <Icon>
-            <br/><br/><br/>
-            <Text>{props.comment_cnt}</Text>
-            <FontAwesomeIcon icon={faCarrot} size="2x" color={"#EE6705"}/>
+            <br/><br/><br/><br/>
+            <Like
+              _onClick={likeBtn}
+              is_like={props.is_like}/>
           </Icon>
         </Grid>
       </Grid>
@@ -39,13 +46,18 @@ const Post = (props) => {
 }
 
 Post.defaultProps = {
+  id:null,
   user_info: {
     user_name: 'fall_of'
   },
   insert_d: "Jul 08, 2021",
+  insert_dt: "2021-07-08 08:28:00 am",
   img_url: postEx,
   contents: "ㄱㅇㅇㄱㅇㅇㄱㅇㅇㄱㅇㅇㄱㅇㅇ",
-  comment_cnt :"0"
+  like_cnt : 0,
+  comment_cnt : 0,
+  is_like: false,
+  is_me: false,
 }
 
 const Icon = styled.div`

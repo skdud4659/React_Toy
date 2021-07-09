@@ -4,8 +4,9 @@ import {actionCreators as postActions} from '../redux/modules/post';
 import {history} from '../redux/configStore';
 
 import Post from '../components/Post';
-import { Grid } from '../elements';
+import { Button, Grid, Text } from '../elements';
 import InfinityScroll from '../components/InfinityScroll';
+import styled from 'styled-components'
 
 
 const Main = (props) => {
@@ -24,6 +25,7 @@ const Main = (props) => {
 
   return (
     <React.Fragment>
+      <Grid box overflow>
       <InfinityScroll
             callNext={() => {
               console.log("next!")
@@ -32,13 +34,14 @@ const Main = (props) => {
             is_next={paging.next ? true : false}
             loading={is_loading}
           >
-          <Grid height="100%" overflow>
         {post_list.map((p, idx) => {
           if (p.user_info.user_id === user_info?.uid) {
             return (
               <Grid
-              _onClick={() => {
+              _onClick={(e) => {
                 history.push(`/detail/${p.id}`);
+                e.preventDefault();
+                e.stopPropagation();
               }}
               key={p.id}>
                 <Post key={p.id} {...p} is_me/>
@@ -47,8 +50,10 @@ const Main = (props) => {
           } else {
             return (
               <Grid
-              _onClick={() => {
+              _onClick={(e) => {
                 history.push(`/detail/${p.id}`);
+                e.preventDefault();
+                e.stopPropagation();
               }}
               key={p.id}>
                 <Post {...p}/>
@@ -56,11 +61,18 @@ const Main = (props) => {
             )
           }
         })}
-        <button onClick={() => dispatch(postActions.getPostFB(paging.next))}>추가</button>
-        </Grid>
+        <MoreBtn onClick={() => dispatch(postActions.getPostFB(paging.next))}>더 보기</MoreBtn>
+
         </InfinityScroll>
+        </Grid>
     </React.Fragment>
   );
 }
+
+const MoreBtn = styled.button`
+  margin: 10% auto;
+  background-color: #D6D6D6;
+  display: block;
+`;
 
 export default Main;

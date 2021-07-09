@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const Grid = (props) => {
-  const {children, padding, rows, _onClick, is_flex, is_over, overflow, top, width, height, margin, bg, position, border, shadow, border_top} = props
+  const {children, padding, box, rows, _onClick, is_flex, is_over, overflow, top, width, height, margin, bg, position, border, shadow, border_top} = props
 
   const styles = {
     is_flex: is_flex,
@@ -19,6 +19,7 @@ const Grid = (props) => {
     overflow:overflow,
     is_over: is_over,
     border_top:border_top,
+    box:box
   }
 
   if(top === "true") {
@@ -37,6 +38,12 @@ const Grid = (props) => {
   if(is_over) {
     return (
         <PositionBox {...styles}>{children}</PositionBox>
+    );
+  }
+
+  if(box) {
+    return (
+        <Box {...styles}>{children}</Box>
     );
   }
 
@@ -62,7 +69,8 @@ Grid.defaultProps = {
   overflow:false,
   is_over:false,
   border_top:"",
-  _onClick: () => {}
+  _onClick: () => {},
+  box:null
 }
 
 const GridBox = styled.div`
@@ -126,6 +134,18 @@ const PositionBox = styled.div`
   ${(props) => props.shadow ? `box-shadow: ${props.shadow}` : ''};
   ${(props) => props.overflow ? `overflow-y:scroll;` : ''};
   ${(props) => props.is_over ? `position:relative;` : ''};
+`;
+
+const Box = styled.div`
+  width: ${(props) => props.width};
+  height: 100%;
+  box-sizing: border-box;
+  ${(props) => props.padding ? `padding: ${props.padding}` : ''}
+  ${(props) => props.margin ? `margin: ${props.margin}` : ''}
+  ${(props) => props.bg ? `background-color: ${props.bg}` : ''}
+  ${(props) => props.is_between ?
+  `display: flex; align-items:center; justify-content:space-between;` : ''}
+  ${(props) => props.overflow ? `overflow-y:scroll;` : ''};
 `;
 
 export default Grid;

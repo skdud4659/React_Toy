@@ -10,18 +10,20 @@ const InfinityScroll = (props) => {
         if(loading){
             return;
         }
+
+        const {innerHeight} = window;
+        const {scrollHeight} = document.body;
+
+        const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+        
+        if(scrollHeight - innerHeight - scrollTop < 100) {
+            if(loading){
+                return;
+            }
             callNext();
+        }
     }, 300);
 
-        //     const {innerHeight} = window;
-    //     const {scrollHeight} = document.body;
-
-    //     const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-        
-    //     if(scrollHeight - innerHeight - scrollTop < 200) {
-    //         if(loading){
-    //             return;
-    //         }
 
     const handleScroll = React.useCallback(_handleScroll, [loading]);
 
